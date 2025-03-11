@@ -139,6 +139,21 @@ app.delete('/book/:id',async(req,res)=>{
   res.send(result)
 })
 
+app.patch('/book/:id',async(req,res)=>{
+  const id =req.params.id;
+  const updatedBooking = req.body;
+  const filter = {_id: new ObjectId(id)};
+  const options ={upsert:true};
+  const updateDoc ={
+    $set:{
+      status: updatedBooking.status
+    }
+  }
+  const result = await bookingCollection.updateOne(filter,updateDoc,options)
+  res.send(result)
+
+})
+
 
 
 
