@@ -113,15 +113,34 @@ app.post('/book',async(req,res)=>{
   res.send(result)
 })
 
-app.get('/book',async(req,res)=>{
+// app.get('/book',async(req,res)=>{
   
-  const cursor=  bookingCollection.find();
-  const result =await cursor.toArray();
+//   const cursor=  bookingCollection.find();
+//   const result =await cursor.toArray();
+//   res.send(result)
+
+// })
+
+app.get('/book',async(req,res)=>{
+  // const query = req.query?.email;
+  let query ={};
+  if(req.query?.email){
+    query = {email: req.query.email}
+  }
+ console.log(query)
+  const result = await bookingCollection.find(query).toArray();
   res.send(result)
-
-
-
 })
+
+app.delete('/book/:id',async(req,res)=>{
+  const id = req.params.id;
+  const query = {_id: new ObjectId(id)};
+  const result = await bookingCollection.deleteOne(query);
+  res.send(result)
+})
+
+
+
 
 
 
